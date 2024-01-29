@@ -1,4 +1,5 @@
---v  version: 0.0.1
+-- version: 0.0.1
+
 -- author: andrew m mccall
 -- license: MIT
 -- description: my shitty neovim config
