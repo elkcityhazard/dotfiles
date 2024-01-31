@@ -84,6 +84,7 @@ local plugins = {
             require('lualine').setup()
         end
 	},
+    "tpope/vim-fugitive",
 }
 
 local options = {}
