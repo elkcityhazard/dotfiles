@@ -38,6 +38,21 @@ local formatter = require("formatter").setup({
 				}
 			end,
 		},
+		javascript = {
+			require("formatter.filetypes.javascript").prettierd,
+		},
+		go = {
+			require("formatter.filetypes.go").goimports,
+		},
+		html = {
+			require("formatter.filetypes.html").prettierd,
+		},
+		css = {
+			require("formatter.filetypes.css").prettierd,
+		},
+		json = {
+			require("formatter.filetypes.json").prettierd,
+		},
 	},
 })
 

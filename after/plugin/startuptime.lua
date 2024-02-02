@@ -1,5 +1,5 @@
 function startuptime()
-	vim.cmd("StartupTime")
+	--	vim.cmd("StartupTime")
 end
 
 startuptime()
