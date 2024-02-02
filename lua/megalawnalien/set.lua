@@ -32,3 +32,6 @@ vim.opt.colorcolumn = "80"
 
 vim.opt.timeoutlen = 1000
 vim.opt.ttimeoutlen = 0
+
+-- clipboard
+vim.opt.clipboard = "unnamedplus"
