@@ -4,7 +4,7 @@ vim.keymap.set("n", "<leader>ptn", function()
 	vim.cmd("tabnew")
 	vim.cmd("Ex")
 end, { noremap = true, silent = true })
-
+vim.keymap.set("n", "<leader>pe", vim.cmd.Lex)
 -- Codeium Remap
 --
 vim.g.codeium_tab_fallback = "<Tab>"

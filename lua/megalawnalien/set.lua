@@ -35,3 +35,6 @@ vim.opt.ttimeoutlen = 0
 
 -- clipboard
 vim.opt.clipboard = "unnamedplus"
+
+-- netrw max width
+vim.g.netrw_winsize = 20
