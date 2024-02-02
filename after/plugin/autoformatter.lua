@@ -41,9 +41,17 @@ local formatter = require("formatter").setup({
 	},
 })
 
+-- this autocmd runs format on save
+
 vim.api.nvim_create_autocmd("BufWritePost", {
 	pattern = "*",
 	callback = function()
 		vim.cmd("Format")
 	end,
 })
+
+-- this keymap allows us to format whenever we please
+
+vim.keymap.set("n", "<leader>fmt", function()
+	vim.cmd("Format")
+end, { noremap = true, silent = true })
