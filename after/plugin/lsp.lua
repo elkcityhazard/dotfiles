@@ -123,9 +123,9 @@ require("lspconfig").cssls.setup({
 --	end,
 --})
 
-require("lspconfig").eslint.setup({
+lspconfig.tsserver.setup({
 	on_attach = function(client, bufnr)
-		print("ESLint LSP")
+		print("TSServer LSP")
 	end,
 })
 
