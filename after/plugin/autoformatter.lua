@@ -2,7 +2,7 @@
 local util = require("formatter.util")
 
 -- Provides the Format, FormatWrite, FormatLock, and FormatWriteLock commands
-require("formatter").setup({
+local formatter = require("formatter").setup({
 	-- Enable or disable logging
 	logging = true,
 	-- Set the log level
@@ -38,6 +38,12 @@ require("formatter").setup({
 				}
 			end,
 		},
-
 	},
+})
+
+vim.api.nvim_create_autocmd("BufWritePost", {
+	pattern = "*",
+	callback = function()
+		vim.cmd("Format")
+	end,
 })
