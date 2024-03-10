@@ -31,11 +31,81 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
 local lsp_capabilities = require("cmp_nvim_lsp").default_capabilities()
 
+--helper function for cssls
+
+local cssls_capabilities = function()
+    local capabilities = vim.lsp.protocol.make_client_capabilities()
+    capabilities.textDocument.completion.completionItem.snippetSupport = true
+
+    return capabilities
+end
+
 local default_setup = function(server)
-    require("lspconfig")["emmett-language-server"].setup({
+    -- emmet_language_server
+    require("lspconfig").emmet_language_server.setup({
         capabilities = lsp_capabilities,
     })
+
+
+
+    require("lspconfig").cssls.setup({
+        capabilities = cssls_capabilities()
+    })
+
+    -- lua_ls setup
+    require("lspconfig").lua_ls.setup({
+        capabilities = lsp_capabilities,
+        settings = {
+            Lua = {
+                runtime = {
+                    version = "LuaJIT",
+                },
+                diagnostics = {
+                    globals = { "vim" },
+                },
+                workspace = {
+                    library = {
+                        vim.env.VIMRUNTIME,
+                    },
+                },
+            },
+        },
+    })
+
+    -- Setup Gopls based on Go Documentation
+
+    require("lspconfig").gopls.setup({
+        capabilities = lsp_capabilities,
+        settings = {
+            gopls = {
+                analyses = {
+                    unusedparams = true,
+                },
+                staticcheck = true,
+                gofumpt = true,
+            },
+        },
+    })
+
+
+    -- javascript/typescript
+
+    require("lspconfig").tsserver.setup({
+        capabilities = lsp_capabilities,
+    })
+
+    -- dockerls
+    require("lspconfig").dockerls.setup {}
+
+    -- docker compose
+    require("lspconfig").docker_compose_language_service.setup {}
+
+    require("lspconfig").phpactor.setup {}
+
+    print(server)
 end
+
+-- pass default_setup to mason
 
 require("mason").setup({})
 require("mason-lspconfig").setup({
@@ -65,24 +135,6 @@ cmp.setup({
     },
 })
 
-require("lspconfig").lua_ls.setup({
-    capabilities = lsp_capabilities,
-    settings = {
-        Lua = {
-            runtime = {
-                version = "LuaJIT",
-            },
-            diagnostics = {
-                globals = { "vim" },
-            },
-            workspace = {
-                library = {
-                    vim.env.VIMRUNTIME,
-                },
-            },
-        },
-    },
-})
 
 
 -- Configure format on save
@@ -96,20 +148,6 @@ autocmd('BufWritePre', {
     end,
 })
 
--- Setup Gopls based on Go Documentation
-
-require("lspconfig").gopls.setup({
-    capabilities = lsp_capabilities,
-    settings = {
-        gopls = {
-            analyses = {
-                unusedparams = true,
-            },
-            staticcheck = true,
-            gofumpt = true,
-        },
-    },
-})
 
 -- Configure go import pre buffer save
 
@@ -135,10 +173,4 @@ autocmd("BufWritePre", {
         end
         vim.lsp.buf.format({ async = false })
     end,
-})
-
--- javascript/typescript
-
-require("lspconfig").tsserver.setup({
-    capabilities = lsp_capabilities,
 })
