@@ -115,12 +115,8 @@ capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 
 require("lspconfig").lua_ls.setup({
-	settings = {
-		Lua = {
-			diagnostics = {
-				globals = { "vim" },
-			},
-		},
+	diagnostics = {
+		global = { "vim" },
 	},
 	on_attach = function(client, bufnr)
 		print("LSP")
@@ -133,10 +129,10 @@ require("lspconfig").cssls.setup({
 	flags = lsp_flags,
 })
 
-require("lspconfig").emmet_ls.setup({
-	on_attach = lsp.on_attach,
-	capabilities = capabilities,
-	flags = lsp_flags,
+require("lspconfig").gopls.setup({
+	on_attach = function(client, bufnr)
+		print("Gopls LSP")
+	end,
 })
 
 lspconfig.tsserver.setup({
