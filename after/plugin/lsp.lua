@@ -106,6 +106,9 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 })
 
 require("lspconfig").lua_ls.setup({
+	diagnostics = {
+		global = { "vim" },
+	},
 	on_attach = function(client, bufnr)
 		print("LSP")
 	end,
@@ -117,11 +120,11 @@ require("lspconfig").cssls.setup({
 	end,
 })
 
---require("lspconfig").tsserver.setup({
---	on_attach = function(client, bufnr)
---		print("TSServer LSP")
---	end,
---})
+require("lspconfig").gopls.setup({
+	on_attach = function(client, bufnr)
+		print("Gopls LSP")
+	end,
+})
 
 lspconfig.tsserver.setup({
 	on_attach = function(client, bufnr)
