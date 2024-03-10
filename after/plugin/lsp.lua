@@ -32,7 +32,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 local lsp_capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 local default_setup = function(server)
-    require("lspconfig")["emmet-language-server"].setup({
+    require("lspconfig")["emmett-language-server"].setup({
         capabilities = lsp_capabilities,
     })
 end
