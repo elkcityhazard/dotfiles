@@ -94,12 +94,29 @@ local default_setup = function(server)
     })
 
     -- dockerls
-    require("lspconfig").dockerls.setup {}
+    require("lspconfig").dockerls.setup({
+        capabilities = lsp_capabilities
+    })
 
     -- docker compose
     require("lspconfig").docker_compose_language_service.setup {}
 
-    require("lspconfig").phpactor.setup {}
+    -- intelephense
+    require("lspconfig").intelephense.setup({
+        capabilities = lsp_capabilities,
+        settings = {
+            intelephense = {
+                stubs = {
+                    "wordpress",
+                    "wordpress-globals",
+                }
+            },
+        },
+    })
+
+    require("lspconfig").phpactor.setup({
+        capabilities = lsp_capabilities
+    })
 
     print(server)
 end
