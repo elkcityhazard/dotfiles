@@ -103,16 +103,16 @@ local default_setup = function(server)
 
     -- intelephense
     require("lspconfig").intelephense.setup({
-        capabilities = lsp_capabilities,
+        -- capabilities = lsp_capabilities,
         settings = {
             intelephense = {
                 stubs = {
                     "wordpress",
                     "wordpress-globals",
                 },
-                environment = {
-                    includePaths = '/home/andrew/.composer/vendor/php-stubs/'
-                },
+                --environment = {
+                --    includePaths = '/home/andrew/.composer/vendor/php-stubs/'
+                --},
                 files = {
                     maxSize = 5000000
                 },
