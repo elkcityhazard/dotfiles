@@ -44,25 +44,16 @@ local formatter = require("formatter").setup({
 		go = {
 			require("formatter.filetypes.go").goimports,
 		},
-		html = {
-			require("formatter.filetypes.html").prettierd,
-		},
 		css = {
 			require("formatter.filetypes.css").prettierd,
 		},
 		json = {
 			require("formatter.filetypes.json").prettierd,
 		},
+		php = {
+			require("formatter.filetypes.php").php_cs_fixer,
+		},
 	},
-})
-
--- this autocmd runs format on save
-
-vim.api.nvim_create_autocmd("BufWritePost", {
-	pattern = "*",
-	callback = function()
-		vim.cmd("Format")
-	end,
 })
 
 -- this keymap allows us to format whenever we please
@@ -70,3 +61,11 @@ vim.api.nvim_create_autocmd("BufWritePost", {
 vim.keymap.set("n", "<leader>fmt", function()
 	vim.cmd("Format")
 end, { noremap = true, silent = true })
+
+local augroup = vim.api.nvim_create_augroup
+local autocmd = vim.api.nvim_create_autocmd
+augroup("__formatter__", { clear = true })
+autocmd("BufWritePost", {
+	group = "__formatter__",
+	command = ":FormatWriteLock",
+})

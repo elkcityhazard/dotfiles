@@ -4,7 +4,7 @@ lsp.extend_lspconfig()
 lsp.preset("recommended")
 
 require("mason").setup({
-	ensure_installed = { "lua_ls", "javascript", "tsserver", "gopls", "php", "cssls", "emmettls" },
+	ensure_installed = { "lua_ls", "javascript", "tsserver", "gopls", "php", "cssls", "emmett_ls", "jsonls" },
 })
 -- Fix Undefined global 'vim'
 --lsp.nvim_workspace()
@@ -105,23 +105,39 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 	end,
 })
 
+local lsp_flags = {
+	allow_incremental_sync = true,
+	debounce_text_changes = 150.,
+}
+
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
+capabilities.textDocument.completion.completionItem.snippetSupport = true
+
 require("lspconfig").lua_ls.setup({
+	settings = {
+		Lua = {
+			diagnostics = {
+				globals = { "vim" },
+			},
+		},
+	},
 	on_attach = function(client, bufnr)
 		print("LSP")
 	end,
 })
 
 require("lspconfig").cssls.setup({
-	on_attach = function(client, bufnr)
-		print("CSS LSP")
-	end,
+	on_attach = lsp.on_attach,
+	capabilities = capabilities,
+	flags = lsp_flags,
 })
 
---require("lspconfig").tsserver.setup({
---	on_attach = function(client, bufnr)
---		print("TSServer LSP")
---	end,
---})
+require("lspconfig").emmet_ls.setup({
+	on_attach = lsp.on_attach,
+	capabilities = capabilities,
+	flags = lsp_flags,
+})
 
 lspconfig.tsserver.setup({
 	on_attach = function(client, bufnr)
@@ -129,11 +145,9 @@ lspconfig.tsserver.setup({
 	end,
 })
 
-require("lspconfig").html.setup({
-	on_attach = function(client, bufnr)
-		print("HTML LSP")
-	end,
-})
+lspconfig["json-lsp"].setup({})
+
+lspconfig.gopls.setup({})
 
 lsp.setup()
 
