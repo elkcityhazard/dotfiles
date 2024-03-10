@@ -71,6 +71,13 @@ local plugins = {
         "hrsh7th/cmp-nvim-lsp",
         "L3MON4D3/LuaSnip",
     },
+
+    {
+        'akinsho/bufferline.nvim',
+        version = "*",
+        dependencies = 'nvim-tree/nvim-web-devicons',
+    },
+
 }
 
 local options = {}

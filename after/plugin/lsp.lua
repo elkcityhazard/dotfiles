@@ -1,5 +1,4 @@
 vim.api.nvim_create_augroup("megalawnalien", {})
-
 local autocmd = vim.api.nvim_create_autocmd
 
 -- note: diagnostics are not exclusive to lsp servers
