@@ -127,7 +127,9 @@ local default_setup = function(server)
     })
 
     -- marksman
-    require 'lspconfig'.marksman.setup {}
+    require("lspconfig").marksman.setup({
+        cmd = { "/home/andrew/.local/share/nvim/mason/bin/marksman" }
+    })
 end
 
 -- pass default_setup to mason

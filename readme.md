@@ -7,3 +7,4 @@
 - `rm -rf ~/.config/nvim`
 - `git clone --depth=1  https://github.com/elkcityhazard/dotfiles.git ~/.config/nvim`
 
+
