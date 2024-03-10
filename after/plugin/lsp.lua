@@ -109,7 +109,13 @@ local default_setup = function(server)
                 stubs = {
                     "wordpress",
                     "wordpress-globals",
-                }
+                },
+                environment = {
+                    includePaths = '/home/andrew/.composer/vendor/php-stubs/'
+                },
+                files = {
+                    maxSize = 5000000
+                },
             },
         },
     })
