@@ -120,11 +120,14 @@ local default_setup = function(server)
         },
     })
 
+    -- phpactor
+
     require("lspconfig").phpactor.setup({
         capabilities = lsp_capabilities
     })
 
-    print(server)
+    -- marksman
+    require 'lspconfig'.marksman.setup {}
 end
 
 -- pass default_setup to mason

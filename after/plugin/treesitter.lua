@@ -10,6 +10,7 @@ require("nvim-treesitter.configs").setup({
         "lua",
         "rust",
         "markdown",
+        "markdown_inline",
         "php",
         "css",
         "scss",
