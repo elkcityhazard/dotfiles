@@ -7,6 +7,3 @@
 -- published: January 3, 2024
 -- updated: March 10, 2024
 require("megalawnalien")
-
-
-print("Welcome, Andrew")
