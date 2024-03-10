@@ -32,7 +32,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 local lsp_capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 local default_setup = function(server)
-    require("lspconfig")[server].setup({
+    require("lspconfig")["emmet-language-server"].setup({
         capabilities = lsp_capabilities,
     })
 end
@@ -50,16 +50,6 @@ local cmp = require("cmp")
 cmp.setup({
     sources = {
         { name = "nvim_lsp" },
-        { name = "codeium" },
-    },
-    formatting = {
-        format = require("lspkind").cmp_format({
-            mode = "symbol",
-            maxwidth = 50,
-            ellipsis_char = "...",
-            symbol_map = { Codeium = "", },
-            show_labelDetails = true,
-        }),
     },
     mapping = cmp.mapping.preset.insert({
         -- Enter key confirms completion item
@@ -102,12 +92,14 @@ autocmd('BufWritePre', {
     group = "megalawnalien",
     callback = function()
         vim.lsp.buf.format { async = false }
+        print("progress saved")
     end,
 })
 
 -- Setup Gopls based on Go Documentation
 
 require("lspconfig").gopls.setup({
+    capabilities = lsp_capabilities,
     settings = {
         gopls = {
             analyses = {
@@ -147,4 +139,6 @@ autocmd("BufWritePre", {
 
 -- javascript/typescript
 
-require("lspconfig").tsserver.setup({})
+require("lspconfig").tsserver.setup({
+    capabilities = lsp_capabilities,
+})

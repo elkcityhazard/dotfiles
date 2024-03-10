@@ -71,18 +71,6 @@ local plugins = {
         "hrsh7th/cmp-nvim-lsp",
         "L3MON4D3/LuaSnip",
     },
-    {
-        "Exafunction/codeium.nvim",
-        dependencies = {
-            "nvim-lua/plenary.nvim",
-            "hrsh7th/nvim-cmp",
-            "onsails/lspkind.nvim",
-        },
-        config = function()
-            require("codeium").setup({
-            })
-        end
-    },
 }
 
 local options = {}
