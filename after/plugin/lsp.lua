@@ -130,13 +130,19 @@ local default_setup = function(server)
     require("lspconfig").marksman.setup({
         cmd = { "/home/andrew/.local/share/nvim/mason/bin/marksman" }
     })
+    --  autotools_ls for make
+    require("lspconfig").autotools_ls.setup({})
+
+    --  sqls
+    --  maybe try something else
+    --require("lspconfig").sqls.setup({})
 end
 
 -- pass default_setup to mason
 
 require("mason").setup({})
 require("mason-lspconfig").setup({
-    ensure_installed = {},
+    ensure_installed = { "autotools_ls", "sqls", "tsserver", "gopls" },
     handlers = {
         default_setup,
     },
