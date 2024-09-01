@@ -146,6 +146,7 @@ require("mason-lspconfig").setup({
 })
 
 local cmp = require("cmp")
+require("luasnip.loaders.from_vscode").lazy_load()
 
 cmp.setup({
 	sources = {
@@ -160,7 +161,6 @@ cmp.setup({
 	}),
 	snippet = {
 		expand = function(args)
-			require("luasnip.loaders.from_vscode").lazy_load()
 			require("luasnip").lsp_expand(args.body)
 		end,
 	},
