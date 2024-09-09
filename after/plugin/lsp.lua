@@ -4,6 +4,9 @@ local lsp_capabilities = require("cmp_nvim_lsp").default_capabilites
 
 -- get default lsp config setup to pass into mason
 local default_setup = function(server)
+    if server == "ts_ls" then
+        server = "ts_ls"
+    end
 	require("lspconfig")[server].setup({
 		capabilities = lsp_capabilities,
 	})
@@ -17,7 +20,7 @@ require("mason-lspconfig").setup({
 	ensure_installed = {
 		"html",
 		"cssls",
-		"tsserver",
+		"ts_ls",
 		"gopls",
 		"emmet_language_server",
 		"tailwindcss",
