@@ -26,7 +26,6 @@ require("mason-lspconfig").setup({
 		"tailwindcss",
 		"yamlls",
 		"prosemd_lsp",
-		"intelephense",
 		"clangd",
 		"harper_ls",
 		"rust_analyzer",
@@ -34,9 +33,32 @@ require("mason-lspconfig").setup({
 		"docker_compose_language_service",
 		"dockerls",
 		"graphql",
+    "phpactor",
+    "lua_ls",
+    "intelephense",
 	},
 	handlers = {
 		default_setup,
+    intelephense = function ()
+        require('lspconfig').intelephense.setup({
+            root_dir = function ()
+                return vim.loop.cwd()
+            end,
+        })
+    end,
+    phpactor = function()
+        require('lspconfig').phpactor.setup({
+            root_dir = function ()
+                return vim.loop.cwd()
+            end,init_options = {
+    ["language_server.diagnostics_on_update"] = true,
+    ["language_server.diagnostics_on_open"] = false,
+    ["language_server.diagnostics_on_save"] = false,
+    ["language_server_phpstan.enabled"] = true,
+    ["language_server_psalm.enabled"] = false,
+  }
+        })
+    end,
 		graphql = function()
 			require("lspconfig").graphql.setup({})
 		end,
@@ -87,9 +109,6 @@ require("mason-lspconfig").setup({
 		end,
 		clangd = function()
 			require("lspconfig").clangd.setup({})
-		end,
-		intelephense = function()
-			require("lspconfig").intelephense.setup({})
 		end,
 		prosemd_lsp = function()
 			require("lspconfig").prosemd_lsp.setup({})
