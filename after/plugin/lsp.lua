@@ -60,7 +60,11 @@ require("mason-lspconfig").setup({
         })
     end,
 		graphql = function()
-			require("lspconfig").graphql.setup({})
+			require("lspconfig").graphql.setup({
+            root_dir = function ()
+                return vim.loop.cwd()
+            end,
+      })
 		end,
 		dockerls = function()
 			require("lspconfig").dockerls.setup({

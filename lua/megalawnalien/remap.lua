@@ -13,6 +13,7 @@ vim.keymap.set("n", "<leader>bf", vim.cmd.bfirst)
 vim.keymap.set("n", "<leader>bl", vim.cmd.blast)
 vim.keymap.set("n", "<leader>bn", vim.cmd.bnext)
 vim.keymap.set("n", "<leader>bp", vim.cmd.bprevious)
+vim.keymap.set("n", "<leader>bd", vim.cmd.bdelete)
 
 -- LSP
 --
