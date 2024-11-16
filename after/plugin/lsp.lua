@@ -153,6 +153,7 @@ require("mason-lspconfig").setup({
 			html_capabilities.textDocument.completion.completionItem.snippetSupport = true
 
 			require("lspconfig").html.setup({
+        filetypes = {"html","gohtml"},
 				capabilities = html_capabilities,
 			})
 		end,
@@ -162,7 +163,7 @@ require("mason-lspconfig").setup({
 				settings = {
 					Lua = {
 						diagnostics = {
-							globals = { "vim" },
+							globals = { "vim", "cwd" },
 						},
 					},
 				},

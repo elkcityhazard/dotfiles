@@ -1,6 +1,15 @@
-require'nvim-treesitter.configs'.setup {
+vim.treesitter.language.register('html', 'gohtml')
+
+vim.filetype.add({
+    extension = {
+        gohtml = "gohtml"
+    },
+})
+
+
+require('nvim-treesitter.configs').setup({
   -- A list of parser names, or "all" (the listed parsers MUST always be installed)
-  ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline", "typescript", "go", "jsdoc", "json", "make", "yaml" },
+  ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline", "typescript", "go", "jsdoc", "json", "make", "yaml","html","gotmpl","helm" },
 
   -- Install parsers synchronously (only applied to `ensure_installed`)
   sync_install = false,
@@ -32,4 +41,4 @@ require'nvim-treesitter.configs'.setup {
     -- Instead of true it can also be a list of languages
     additional_vim_regex_highlighting = false,
   },
-}
+})

@@ -40,3 +40,4 @@ vim.opt.clipboard = "unnamedplus"
 vim.g.netrw_winsize = 20
 
 vim.loader.enable()
+
