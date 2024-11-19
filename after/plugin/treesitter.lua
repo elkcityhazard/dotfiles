@@ -1,9 +1,7 @@
-vim.treesitter.language.register('html', 'gohtml')
-
 vim.filetype.add({
     extension = {
-        gohtml = "gohtml"
-    },
+        gohtml = "gohtml",
+    }
 })
 
 
@@ -42,3 +40,11 @@ require('nvim-treesitter.configs').setup({
     additional_vim_regex_highlighting = false,
   },
 })
+vim.treesitter.language.register('gotmpl', 'gohtml')
+
+
+
+    
+
+
+

@@ -131,13 +131,22 @@ require("mason-lspconfig").setup({
 			})
 		end,
 		gopls = function()
-			require("lspconfig").gopls.setup({})
+			require("lspconfig").gopls.setup({
+          filetypes = {
+              "gohtml",
+              "go"
+          },
+      })
 		end,
 		tailwindcss = function()
 			require("lspconfig").tailwindcss.setup({})
 		end,
 		emmet_language_server = function()
-			require("lspconfig").emmet_language_server.setup({})
+			require("lspconfig").emmet_language_server.setup({
+          filetypes = {
+              "gohtml", "gotmpl", "go",
+          },
+      })
 		end,
 		cssls = function()
 			--Enable (broadcasting) snippet capability for completion
@@ -146,6 +155,9 @@ require("mason-lspconfig").setup({
 
 			require("lspconfig").cssls.setup({
 				capabilities = css_capabilities,
+        filetypes = {
+            "gohtml", "gotmpl", "go",
+        }
 			})
 		end,
 		html = function()
@@ -153,7 +165,7 @@ require("mason-lspconfig").setup({
 			html_capabilities.textDocument.completion.completionItem.snippetSupport = true
 
 			require("lspconfig").html.setup({
-        filetypes = {"html","gohtml"},
+        filetypes = {"html","gohtml,gotmpl"},
 				capabilities = html_capabilities,
 			})
 		end,
