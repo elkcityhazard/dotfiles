@@ -8,6 +8,7 @@ require("conform").setup({
     rust = { "rustfmt", lsp_format = "fallback" },
     -- Conform will run the first available formatter
     javascript = { "prettierd", "prettier", stop_after_first = true },
+    json = {"prettierd","prettier", stop_after_first = true},
   },
   formatters = {
       php = {
