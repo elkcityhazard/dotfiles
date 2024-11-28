@@ -156,7 +156,7 @@ require("mason-lspconfig").setup({
 			require("lspconfig").cssls.setup({
 				capabilities = css_capabilities,
         filetypes = {
-            "gohtml", "gotmpl", "go",
+            "gohtml", "gotmpl",
         }
 			})
 		end,
