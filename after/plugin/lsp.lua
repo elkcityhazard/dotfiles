@@ -188,9 +188,10 @@ local cmp = require("cmp")
 require("luasnip.loaders.from_vscode").lazy_load()
 
 cmp.setup({
-	sources = {
+	sources = cmp.config.sources({
 		{ name = "nvim_lsp" },
-	},
+    { name = 'luasnip'},
+	}),
 	mapping = cmp.mapping.preset.insert({
 		-- Enter key confirms completion item
 		["<CR>"] = cmp.mapping.confirm({ select = false }),
@@ -203,4 +204,8 @@ cmp.setup({
 			require("luasnip").lsp_expand(args.body)
 		end,
 	},
+  window = {
+      completion = cmp.config.window.bordered(),
+      documentation = cmp.config.window.bordered()
+  },
 })
