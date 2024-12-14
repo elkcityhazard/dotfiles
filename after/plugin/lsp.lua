@@ -144,7 +144,7 @@ require("mason-lspconfig").setup({
 		emmet_language_server = function()
 			require("lspconfig").emmet_language_server.setup({
           filetypes = {
-              "gohtml", "gotmpl", "go",
+              "gohtml", "gotmpl", "go","typescriptreact","jsx","js","ts"
           },
       })
 		end,
