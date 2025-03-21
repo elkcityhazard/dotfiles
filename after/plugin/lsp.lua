@@ -1,3 +1,31 @@
+local cmp = require("cmp")
+require("luasnip.loaders.from_vscode").lazy_load()
+require("luasnip.loaders.from_snipmate").lazy_load({
+    include = {"gopls", "typescriptreact", "javascript", "php"}
+})
+
+cmp.setup({
+	sources = cmp.config.sources({
+		{ name = "nvim_lsp" },
+    { name = 'luasnip'},
+	}),
+	mapping = cmp.mapping.preset.insert({
+		-- Enter key confirms completion item
+		["<CR>"] = cmp.mapping.confirm({ select = false }),
+
+		-- Ctrl + space triggers completion menu
+		["<C-Space>"] = cmp.mapping.complete(),
+	}),
+	snippet = {
+		expand = function(args)
+			require("luasnip").lsp_expand(args.body)
+		end,
+	},
+  window = {
+      completion = cmp.config.window.bordered(),
+      documentation = cmp.config.window.bordered()
+  },
+})
 -- default capabilities
 
 local lsp_capabilities = require("cmp_nvim_lsp").default_capabilites
@@ -144,7 +172,7 @@ require("mason-lspconfig").setup({
 		emmet_language_server = function()
 			require("lspconfig").emmet_language_server.setup({
           filetypes = {
-              "gohtml", "gotmpl", "go","typescriptreact","jsx","js","ts"
+              "gohtml", "gotmpl", "go","typescriptreact","jsx","js","ts", "html","css", "php","scss"
           },
       })
 		end,
@@ -156,7 +184,7 @@ require("mason-lspconfig").setup({
 			require("lspconfig").cssls.setup({
 				capabilities = css_capabilities,
         filetypes = {
-            "gohtml", "gotmpl",
+            "gohtml", "gotmpl","css", "scss"
         }
 			})
 		end,
@@ -184,28 +212,3 @@ require("mason-lspconfig").setup({
 	},
 })
 
-local cmp = require("cmp")
-require("luasnip.loaders.from_vscode").lazy_load()
-
-cmp.setup({
-	sources = cmp.config.sources({
-		{ name = "nvim_lsp" },
-    { name = 'luasnip'},
-	}),
-	mapping = cmp.mapping.preset.insert({
-		-- Enter key confirms completion item
-		["<CR>"] = cmp.mapping.confirm({ select = false }),
-
-		-- Ctrl + space triggers completion menu
-		["<C-Space>"] = cmp.mapping.complete(),
-	}),
-	snippet = {
-		expand = function(args)
-			require("luasnip").lsp_expand(args.body)
-		end,
-	},
-  window = {
-      completion = cmp.config.window.bordered(),
-      documentation = cmp.config.window.bordered()
-  },
-})
