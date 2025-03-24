@@ -1,13 +1,16 @@
 local cmp = require("cmp")
-require("luasnip.loaders.from_vscode").lazy_load()
+require("luasnip.loaders.from_vscode").lazy_load({
+	include = { "sql", "mysql" },
+})
 require("luasnip.loaders.from_snipmate").lazy_load({
-    include = {"gopls", "typescriptreact", "javascript", "php"}
+	include = { "gopls", "typescriptreact", "javascript", "php", "sql", "mysql" },
 })
 
 cmp.setup({
 	sources = cmp.config.sources({
 		{ name = "nvim_lsp" },
-    { name = 'luasnip'},
+		{ name = "luasnip" },
+		{ name = "sql" },
 	}),
 	mapping = cmp.mapping.preset.insert({
 		-- Enter key confirms completion item
@@ -21,29 +24,25 @@ cmp.setup({
 			require("luasnip").lsp_expand(args.body)
 		end,
 	},
-  window = {
-      completion = cmp.config.window.bordered(),
-      documentation = cmp.config.window.bordered()
-  },
+	window = {
+		completion = cmp.config.window.bordered(),
+		documentation = cmp.config.window.bordered(),
+	},
 })
--- default capabilities
 
-local lsp_capabilities = require("cmp_nvim_lsp").default_capabilites
+local lsp_capabilities = require("cmp_nvim_lsp").default_capabilities()
 
--- get default lsp config setup to pass into mason
 local default_setup = function(server)
-    if server == "ts_ls" then
-        server = "ts_ls"
-    end
+	if server == "ts_ls" then
+		server = "ts_ls"
+	end
 	require("lspconfig")[server].setup({
 		capabilities = lsp_capabilities,
 	})
 end
 
--- require mason for installing stuff
 require("mason").setup({})
 
--- setup mason lspconfig stuff
 require("mason-lspconfig").setup({
 	ensure_installed = {
 		"html",
@@ -61,38 +60,41 @@ require("mason-lspconfig").setup({
 		"docker_compose_language_service",
 		"dockerls",
 		"graphql",
-    "phpactor",
-    "lua_ls",
-    "intelephense",
+		"phpactor",
+		"lua_ls",
+		"intelephense",
+		"sqls",
+		"sqlls",
 	},
 	handlers = {
 		default_setup,
-    intelephense = function ()
-        require('lspconfig').intelephense.setup({
-            root_dir = function ()
-                return vim.loop.cwd()
-            end,
-        })
-    end,
-    phpactor = function()
-        require('lspconfig').phpactor.setup({
-            root_dir = function ()
-                return vim.loop.cwd()
-            end,init_options = {
-    ["language_server.diagnostics_on_update"] = true,
-    ["language_server.diagnostics_on_open"] = false,
-    ["language_server.diagnostics_on_save"] = false,
-    ["language_server_phpstan.enabled"] = true,
-    ["language_server_psalm.enabled"] = false,
-  }
-        })
-    end,
+		intelephense = function()
+			require("lspconfig").intelephense.setup({
+				root_dir = function()
+					return vim.loop.cwd()
+				end,
+			})
+		end,
+		phpactor = function()
+			require("lspconfig").phpactor.setup({
+				root_dir = function()
+					return vim.loop.cwd()
+				end,
+				init_options = {
+					["language_server.diagnostics_on_update"] = true,
+					["language_server.diagnostics_on_open"] = false,
+					["language_server.diagnostics_on_save"] = false,
+					["language_server_phpstan.enabled"] = true,
+					["language_server_psalm.enabled"] = false,
+				},
+			})
+		end,
 		graphql = function()
 			require("lspconfig").graphql.setup({
-            root_dir = function ()
-                return vim.loop.cwd()
-            end,
-      })
+				root_dir = function()
+					return vim.loop.cwd()
+				end,
+			})
 		end,
 		dockerls = function()
 			require("lspconfig").dockerls.setup({
@@ -136,6 +138,7 @@ require("mason-lspconfig").setup({
 					["harper-ls"] = {
 						userDictPath = "~/dict.txt",
 					},
+					globals = { "cwd", "vim", "vim.loop.cwd" },
 				},
 			})
 		end,
@@ -160,21 +163,33 @@ require("mason-lspconfig").setup({
 		end,
 		gopls = function()
 			require("lspconfig").gopls.setup({
-          filetypes = {
-              "gohtml",
-              "go"
-          },
-      })
+				filetypes = {
+					"gohtml",
+					"go",
+				},
+			})
 		end,
 		tailwindcss = function()
 			require("lspconfig").tailwindcss.setup({})
 		end,
 		emmet_language_server = function()
 			require("lspconfig").emmet_language_server.setup({
-          filetypes = {
-              "gohtml", "gotmpl", "go","typescriptreact","jsx","js","ts", "html","css", "php","scss"
-          },
-      })
+				filetypes = {
+					"gohtml",
+					"gotmpl",
+					"go",
+					"typescriptreact",
+					"jsx",
+					"js",
+					"ts",
+					"html",
+					"css",
+					"php",
+					"scss",
+					"sql",
+					"mysql",
+				},
+			})
 		end,
 		cssls = function()
 			--Enable (broadcasting) snippet capability for completion
@@ -183,9 +198,12 @@ require("mason-lspconfig").setup({
 
 			require("lspconfig").cssls.setup({
 				capabilities = css_capabilities,
-        filetypes = {
-            "gohtml", "gotmpl","css", "scss"
-        }
+				filetypes = {
+					"gohtml",
+					"gotmpl",
+					"css",
+					"scss",
+				},
 			})
 		end,
 		html = function()
@@ -193,22 +211,43 @@ require("mason-lspconfig").setup({
 			html_capabilities.textDocument.completion.completionItem.snippetSupport = true
 
 			require("lspconfig").html.setup({
-        filetypes = {"html","gohtml,gotmpl"},
+				filetypes = { "html", "gohtml", "gotmpl" },
 				capabilities = html_capabilities,
 			})
 		end,
 		lua_ls = function()
 			require("lspconfig").lua_ls.setup({
-				capabilities = lsp_capabilities,
+				capabilities = require("cmp_nvim_lsp").default_capabilities(),
 				settings = {
 					Lua = {
 						diagnostics = {
-							globals = { "vim", "cwd" },
+							globals = { "vim" },
+						},
+						workspace = {
+							library = {
+								[vim.fn.expand("$VIMRUNTIME/lua")] = true,
+								[vim.fn.expand("$VIMRUNTIME/lua/vim/lsp")] = true,
+							},
 						},
 					},
 				},
 			})
 		end,
+		sqls = function()
+			require("lspconfig").sqls.setup({
+				capabilities = lsp_capabilities,
+				root_dir = function()
+					return vim.loop.cwd()
+				end,
+			})
+		end,
+		sqlls = function()
+			require("lspconfig").sqlls.setup({
+				capabilities = lsp_capabilities,
+				root_dir = function()
+					return vim.loop.cwd()
+				end,
+			})
+		end,
 	},
 })
-
