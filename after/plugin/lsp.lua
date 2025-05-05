@@ -1,36 +1,6 @@
-local cmp = require("cmp")
-require("luasnip.loaders.from_vscode").lazy_load({
-	include = { "sql", "mysql" },
-})
-require("luasnip.loaders.from_snipmate").lazy_load({
-	include = { "gopls", "typescriptreact", "javascript", "php", "sql", "mysql" },
-})
+local cmp = require("blink.cmp")
 
-cmp.setup({
-	sources = cmp.config.sources({
-		{ name = "nvim_lsp" },
-		{ name = "luasnip" },
-		{ name = "sql" },
-	}),
-	mapping = cmp.mapping.preset.insert({
-		-- Enter key confirms completion item
-		["<CR>"] = cmp.mapping.confirm({ select = false }),
-
-		-- Ctrl + space triggers completion menu
-		["<C-Space>"] = cmp.mapping.complete(),
-	}),
-	snippet = {
-		expand = function(args)
-			require("luasnip").lsp_expand(args.body)
-		end,
-	},
-	window = {
-		completion = cmp.config.window.bordered(),
-		documentation = cmp.config.window.bordered(),
-	},
-})
-
-local lsp_capabilities = require("cmp_nvim_lsp").default_capabilities()
+local lsp_capabilities = cmp.get_lsp_capabilities()
 
 local default_setup = function(server)
 	if server == "ts_ls" then
@@ -68,13 +38,6 @@ require("mason-lspconfig").setup({
 	},
 	handlers = {
 		default_setup,
-		intelephense = function()
-			require("lspconfig").intelephense.setup({
-				root_dir = function()
-					return vim.loop.cwd()
-				end,
-			})
-		end,
 		phpactor = function()
 			require("lspconfig").phpactor.setup({
 				root_dir = function()
@@ -132,22 +95,6 @@ require("mason-lspconfig").setup({
 				},
 			})
 		end,
-		harper_ls = function()
-			require("lspconfig").harper_ls.setup({
-				settings = {
-					["harper-ls"] = {
-						userDictPath = "~/dict.txt",
-					},
-					globals = { "cwd", "vim", "vim.loop.cwd" },
-				},
-			})
-		end,
-		clangd = function()
-			require("lspconfig").clangd.setup({})
-		end,
-		prosemd_lsp = function()
-			require("lspconfig").prosemd_lsp.setup({})
-		end,
 		yamlls = function()
 			require("lspconfig").yamlls.setup({
 				settings = {
@@ -162,11 +109,13 @@ require("mason-lspconfig").setup({
 			})
 		end,
 		gopls = function()
+			local capabilities = require("blink.cmp").get_lsp_capabilities()
 			require("lspconfig").gopls.setup({
 				filetypes = {
 					"gohtml",
 					"go",
 				},
+				capabilities = capabilities,
 			})
 		end,
 		tailwindcss = function()
@@ -191,30 +140,6 @@ require("mason-lspconfig").setup({
 				},
 			})
 		end,
-		cssls = function()
-			--Enable (broadcasting) snippet capability for completion
-			local css_capabilities = vim.lsp.protocol.make_client_capabilities()
-			css_capabilities.textDocument.completion.completionItem.snippetSupport = true
-
-			require("lspconfig").cssls.setup({
-				capabilities = css_capabilities,
-				filetypes = {
-					"gohtml",
-					"gotmpl",
-					"css",
-					"scss",
-				},
-			})
-		end,
-		html = function()
-			local html_capabilities = vim.lsp.protocol.make_client_capabilities()
-			html_capabilities.textDocument.completion.completionItem.snippetSupport = true
-
-			require("lspconfig").html.setup({
-				filetypes = { "html", "gohtml", "gotmpl" },
-				capabilities = html_capabilities,
-			})
-		end,
 		lua_ls = function()
 			require("lspconfig").lua_ls.setup({
 				capabilities = require("cmp_nvim_lsp").default_capabilities(),
@@ -231,22 +156,6 @@ require("mason-lspconfig").setup({
 						},
 					},
 				},
-			})
-		end,
-		sqls = function()
-			require("lspconfig").sqls.setup({
-				capabilities = lsp_capabilities,
-				root_dir = function()
-					return vim.loop.cwd()
-				end,
-			})
-		end,
-		sqlls = function()
-			require("lspconfig").sqlls.setup({
-				capabilities = lsp_capabilities,
-				root_dir = function()
-					return vim.loop.cwd()
-				end,
 			})
 		end,
 	},

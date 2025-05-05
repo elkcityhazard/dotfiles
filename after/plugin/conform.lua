@@ -1,5 +1,6 @@
 require("conform").setup({
 	formatters_by_ft = {
+		c = { "clang-format" },
 		php = { "php" },
 		lua = { "stylua" },
 		-- Conform will run multiple formatters sequentially
@@ -21,6 +22,11 @@ require("conform").setup({
 				"--allow-risky=yes",
 			},
 			stdin = false,
+		},
+	},
+	opts = {
+		linters_by_ft = {
+			php = {},
 		},
 	},
 })
