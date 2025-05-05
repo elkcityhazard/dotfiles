@@ -142,7 +142,7 @@ require("mason-lspconfig").setup({
 		end,
 		lua_ls = function()
 			require("lspconfig").lua_ls.setup({
-				capabilities = require("cmp_nvim_lsp").default_capabilities(),
+				capabilities = require("cmp_nvim_lsp").default_capabilities(lsp_capabilities),
 				settings = {
 					Lua = {
 						diagnostics = {
