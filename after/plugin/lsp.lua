@@ -38,18 +38,58 @@ require("mason-lspconfig").setup({
 	},
 	handlers = {
 		default_setup,
+		denols = function()
+			local blink_capabilities = require("blink.cmp").get_lsp_capabilities()
+			require("lspconfig").denols.setup({
+				capabilities = blink_capabilities,
+				root_dir = function()
+					return vim.loop.cwd()
+				end,
+			})
+		end,
+		intelephense = function()
+			local blink_capabilities = require("blink.cmp").get_lsp_capabilities()
+			require("lspconfig").intelephense.setup({
+				capabilities = blink_capabilities,
+				settings = {
+					intelephense = {
+						stubs = {
+							"crypto",
+							"wordpress",
+						},
+						files = {
+							associations = {
+								"*.php",
+								"*.module",
+								"*.inc",
+								"*.install",
+								"*.profile",
+								"*.theme",
+								"*.php.in",
+							},
+						},
+						environment = {
+							maxMemory = 4096,
+						},
+					},
+				},
+			})
+		end,
 		phpactor = function()
+			local blink_capabilities = require("blink.cmp").get_lsp_capabilities()
 			require("lspconfig").phpactor.setup({
 				root_dir = function()
 					return vim.loop.cwd()
 				end,
 				init_options = {
 					["language_server.diagnostics_on_update"] = true,
-					["language_server.diagnostics_on_open"] = false,
+					["language_server.diagnostics_on_open"] = true,
 					["language_server.diagnostics_on_save"] = false,
 					["language_server_phpstan.enabled"] = true,
+					["language_server_configuration.auto_config"] = true,
 					["language_server_psalm.enabled"] = false,
 				},
+				capabilities = blink_capabilities,
 			})
 		end,
 		graphql = function()

@@ -15,6 +15,10 @@ vim.keymap.set("n", "<leader>bn", vim.cmd.bnext)
 vim.keymap.set("n", "<leader>bp", vim.cmd.bprevious)
 vim.keymap.set("n", "<leader>bd", vim.cmd.bdelete)
 
+-- Remap Splits
+vim.api.nvim_set_keymap("n", "<Leader>sh", ":split<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<Leader>sv", ":vsplit<CR>", { noremap = true, silent = true })
+
 -- LSP
 --
 --  note: diagnostics are not exclusive to lsp servers
@@ -43,4 +47,3 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		vim.keymap.set("n", "<F4>", "<cmd>lua vim.lsp.buf.code_action()<cr>", opts)
 	end,
 })
-
