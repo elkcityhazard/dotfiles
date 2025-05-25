@@ -11,8 +11,17 @@ require("lspconfig").phpactor.setup({
   capabilities = capabilities,
   root_dir = function()
     return vim.loop.cwd()
-  end
+  end,
+  init_options = {
+    ["language_server.diagnostics_on_update"] = false,
+    ["language_server.diagnostics_on_open"] = false,
+    ["language_server.diagnostics_on_save"] = false,
+    ["language_server_phpstan.enabled"] = false,
+    ["language_server_psalm.enabled"] = false,
+  }
 })
+
+-- intelephense setup
 require("lspconfig").intelephense.setup({
   capabilities = capabilities,
   settings = {
@@ -26,13 +35,12 @@ require("lspconfig").intelephense.setup({
         "zip",
         "zlib",
         "wordpress",
-        "woocommerce",
-        "acf-pro-stubs",
-        "wordpress-globals",
         "wordpress-stubs",
-        "wordpress-seo-stubs",
-        "wordpress-tests-stubs",
-        "wp-cli",
+        "woocommerce",
+        "acf",
+        "acf-pro",
+        "acf-pro-stubs",
+        "woocommerce",
         "genesis",
         "polylang"
       },
@@ -42,11 +50,11 @@ require("lspconfig").intelephense.setup({
       },
       environment = {
         includePaths = {
-          '/home/andrew/.config/composer/vendor/php-stubs',
-          '/home/andrew/.config/composer/vendor/php-stubs/acf-pro-stubs/acf-pro-stubs.php',
-          '/home/andrew/.config/composer/vendor/php-stubs/wordpress-globals/wordpress-globals.php',
-          '/home/andrew/.config/composer/vendor/php-stubs/wordpress-stubs/wordpress-stubs.php',
-          '/home/andrew/.config/composer/vendor/php-stubs/wordpress-seo-stubs/wordpress-seo-stubs.php',
+          '/home/andrew/.config/composer/vendor/php-stubs/wordpress-globals/',
+          '/home/andrew/.config/composer/vendor/php-stubs/wordpress-stubs/',
+          '/home/andrew/.config/composer/vendor/php-stubs/acf-pro-stubs/',
+          '/home/andrew/.config/composer/vendor/php-stubs/wordpress-seo-stubs/',
+          '/home/andrew/.config/composer/vendor/php-stubs/wordpress-tests-stubs/',
         }
       },
       files = {
@@ -55,7 +63,6 @@ require("lspconfig").intelephense.setup({
     }
   },
   on_attach = function()
-
   end,
   root_dir = function()
     return vim.loop.cwd()
