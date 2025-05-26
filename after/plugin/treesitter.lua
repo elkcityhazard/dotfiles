@@ -24,7 +24,8 @@ require('nvim-treesitter.configs').setup({
     "html",
     "gotmpl",
     "helm",
-    "css"
+    "css",
+    "sql"
   },
 
   sync_install = true,
