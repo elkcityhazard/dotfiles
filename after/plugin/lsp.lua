@@ -1,7 +1,38 @@
+local function set_lsp_cwd()
+  local filename = vim.api.nvim_buf_get_name(0)
+  local project_root = vim.fn.fnamemodify(filename, ":p:h")
+
+  if vim.fn.isdirectory(project_root) == 1 then
+    vim.cmd('lcd ' .. project_root)
+  end
+end
+
+local function on_attach(client, bufnr)
+  set_lsp_cwd()
+  local buf_set_keymap = function(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
+  local opts = { noremap = true, silent = true }
+
+  buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
+  buf_set_keymap('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
+end
+
 local default_capabilities = vim.lsp.protocol.make_client_capabilities()
 local capabilities = require("blink.cmp").get_lsp_capabilities(default_capabilities)
 require("lspconfig").lua_ls.setup({ capabilities = capabilities })
 require("lspconfig").gopls.setup({ capabilities = capabilities })
+
+-- json
+local function enable_json_lsp()
+  local jsonCapabilities = capabilities
+  jsonCapabilities.textDocument.completion.completionItem.snippetSupport = true
+  require("lspconfig").jsonls.setup({
+    capabilities = jsonCapabilities,
+    root_dir = vim.uv.cwd(),
+    on_attach = on_attach,
+  })
+end
+
+enable_json_lsp()
 
 -- Javascripts
 require("lspconfig").denols.setup({ capabilities = capabilities })

@@ -48,5 +48,10 @@ vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
 vim.opt.foldcolumn = "2"
 vim.opt.foldtext = ""
 vim.opt.foldlevel = 99
-vim.opt.foldlevelstart = 1
-vim.opt.foldnestmax = 4
+vim.opt.foldlevelstart = 0
+vim.opt.foldnestmax = 3
+vim.opt.foldenable = true    -- Enable folding
+vim.opt.foldmarker = '{{,}}' -- Markers for custom folding
+
+-- Map spacebar to toggle folds
+vim.api.nvim_set_keymap('n', '<Space>', 'za', { noremap = true, silent = true })
