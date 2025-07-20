@@ -20,7 +20,13 @@ local default_capabilities = vim.lsp.protocol.make_client_capabilities()
 local capabilities = require("blink.cmp").get_lsp_capabilities(default_capabilities)
 require("lspconfig").lua_ls.setup({ capabilities = capabilities })
 require("lspconfig").gopls.setup({ capabilities = capabilities })
-
+require("lspconfig").svelte.setup({
+  capabilites = capabilities,
+  root_dir = function()
+    return vim.uv.cwd()
+  end,
+  on_attach = on_attach(vim.lsp.client, 0)
+})
 -- json
 local function enable_json_lsp()
   local jsonCapabilities = capabilities
@@ -33,6 +39,52 @@ local function enable_json_lsp()
 end
 
 enable_json_lsp()
+
+-- markdown
+local function enable_md_lsp()
+  local mdCapabilities = capabilities
+  require('lspconfig').markdown_oxide.setup({
+    capabilities = vim.tbl_deep_extend(
+      'force',
+      mdCapabilities,
+      {
+        workspace = {
+          didChangeWatchedFiles = {
+            dynamicRegistration = true,
+          },
+        },
+      }
+    ),
+  })
+
+  local check_codelens_support = function(client, bufnr)
+    local clients = vim.lsp.get_clients({ bufnr = 0 })
+    for _, c in ipairs(clients) do
+      if c.server_capabilities.codeLensProvider then
+        return true
+      end
+    end
+    return false
+  end
+
+  vim.api.nvim_create_autocmd({ 'TextChanged', 'InsertLeave', 'CursorHold', 'LspAttach', 'BufEnter' }, {
+    buffer = bufnr,
+    callback = function()
+      if check_codelens_support() then
+        vim.lsp.codelens.refresh({ bufnr = 0 })
+      end
+    end
+  })
+  -- trigger codelens refresh
+  vim.api.nvim_exec_autocmds('User', { pattern = 'LspAttached' })
+end
+
+enable_md_lsp()
+
+-- emmet
+require("lspconfig").emmet_language_server.setup({
+  capabilities = capabilities,
+})
 
 -- Javascripts
 require("lspconfig").denols.setup({ capabilities = capabilities })
