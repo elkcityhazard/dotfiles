@@ -11,7 +11,11 @@ vim.opt.autoindent = true
 vim.opt.wrap = false
 vim.opt.swapfile = false
 vim.opt.backup = false
-vim.opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
+if jit.os ~= "Windows" then
+  vim.opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
+else
+  vim.opt.undodir = os.getenv("UserProfile") .. "./vim/undodir"
+end
 vim.opt.undofile = true
 vim.opt.hlsearch = false
 vim.opt.incsearch = true
