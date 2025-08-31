@@ -84,7 +84,23 @@ enable_md_lsp()
 -- emmet
 require("lspconfig").emmet_language_server.setup({
   capabilities = capabilities,
+  filetypes = { "gohtml", "html", "css", "typescript", "scss" },
 })
+-- CSS
+
+local function enable_css(caps)
+  caps.textDocument.completion.completionItem.snippetSupport = true
+
+  require("lspconfig").cssls.setup({
+    capabilities = caps,
+    filetypes = { "css", "scss" },
+    root_dir = function()
+      return vim.uv.cwd()
+    end
+  })
+end
+
+enable_css(capabilities)
 
 -- Javascripts
 require("lspconfig").denols.setup({ capabilities = capabilities })
