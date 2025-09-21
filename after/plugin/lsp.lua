@@ -43,7 +43,7 @@ enable_json_lsp()
 -- markdown
 local function enable_md_lsp()
   local mdCapabilities = capabilities
-  require('lspconfig').markdown_oxide.setup({
+  vim.lsp.config('markdown_oxide',{
     capabilities = vim.tbl_deep_extend(
       'force',
       mdCapabilities,
