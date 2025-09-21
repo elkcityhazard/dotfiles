@@ -18,9 +18,9 @@ end
 
 local default_capabilities = vim.lsp.protocol.make_client_capabilities()
 local capabilities = require("blink.cmp").get_lsp_capabilities(default_capabilities)
-require("lspconfig").lua_ls.setup({ capabilities = capabilities })
-require("lspconfig").gopls.setup({ capabilities = capabilities })
-require("lspconfig").svelte.setup({
+vim.lsp.config('lua_ls',{ capabilities = capabilities })
+vim.lsp.config('gopls',{ capabilities = capabilities })
+vim.lsp.config('svelte',{
   capabilites = capabilities,
   root_dir = function()
     return vim.uv.cwd()
@@ -31,7 +31,7 @@ require("lspconfig").svelte.setup({
 local function enable_json_lsp()
   local jsonCapabilities = capabilities
   jsonCapabilities.textDocument.completion.completionItem.snippetSupport = true
-  require("lspconfig").jsonls.setup({
+  vim.lsp.config('jsonls',{
     capabilities = jsonCapabilities,
     root_dir = vim.uv.cwd(),
     on_attach = on_attach,
@@ -82,7 +82,7 @@ end
 enable_md_lsp()
 
 -- emmet
-require("lspconfig").emmet_language_server.setup({
+vim.lsp.config('emmet_language_server',{
   capabilities = capabilities,
   filetypes = { "gohtml", "html", "css", "typescript", "scss" },
 })
@@ -91,7 +91,7 @@ require("lspconfig").emmet_language_server.setup({
 local function enable_css(caps)
   caps.textDocument.completion.completionItem.snippetSupport = true
 
-  require("lspconfig").cssls.setup({
+  vim.lsp.config('cssls',{
     capabilities = caps,
     filetypes = { "css", "scss" },
     root_dir = function()
@@ -103,11 +103,11 @@ end
 enable_css(capabilities)
 
 -- Javascripts
-require("lspconfig").denols.setup({ capabilities = capabilities })
-require("lspconfig").ts_ls.setup({ capabilities = capabilities })
+vim.lsp.config('denols',{ capabilities = capabilities })
+vim.lsp.config('ts_ls',{ capabilities = capabilities })
 
 -- PHP
-require("lspconfig").phpactor.setup({
+vim.lsp.config('phpactor',{
   capabilities = capabilities,
   root_dir = function()
     return vim.loop.cwd()
@@ -122,7 +122,7 @@ require("lspconfig").phpactor.setup({
 })
 
 -- intelephense setup
-require("lspconfig").intelephense.setup({
+vim.lsp.config('intelephense',{
   capabilities = capabilities,
   settings = {
     intelephense = {
@@ -172,7 +172,7 @@ require("lspconfig").intelephense.setup({
 
 -- sqls
 
-require("lspconfig").sqls.setup({
+vim.lsp.config('sqls',{
   capabilities = capabilities,
   root_dir = function(fname)
     return vim.uv.cwd()
